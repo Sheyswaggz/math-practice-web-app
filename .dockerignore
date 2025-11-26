@@ -1,0 +1,75 @@
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.npm
+.yarn-integrity
+
+# Build outputs
+dist/
+build/
+coverage/
+.next/
+out/
+
+# Testing
+tests/
+__tests__/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+
+# Documentation
+*.md
+README*
+LICENSE
+docs/
+
+# Docker files
+Dockerfile
+docker-compose.yml
+docker-compose.*.yml
+.dockerignore
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+.circleci/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
