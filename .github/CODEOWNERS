@@ -1,0 +1,62 @@
+# CODEOWNERS - Automatic Code Review Assignments
+# This file defines individuals or teams responsible for code in this repository.
+# When a pull request modifies files matching these patterns, the specified
+# owners are automatically requested for review.
+#
+# Format: <file-pattern> <owner1> <owner2> ...
+# Patterns follow .gitignore syntax
+# Later matches take precedence over earlier ones
+# Use @username for individuals or @org/team-name for teams
+
+# Default owners for everything in the repository
+# These reviewers are assigned to all PRs unless overridden by more specific rules
+* @default-reviewers
+
+# GitHub Actions workflows and CI/CD configuration
+# DevOps team reviews all changes to automation and deployment pipelines
+/.github/ @devops-team
+
+# Database schema and migrations
+# Backend team owns all database-related changes including Prisma schema
+/prisma/ @backend-team
+
+# Frontend React components
+# Frontend team reviews all UI component changes
+/src/components/ @frontend-team
+
+# Docker configuration files
+# DevOps team reviews containerization and deployment configuration
+/Dockerfile @devops-team
+/docker-compose.yml @devops-team
+/.dockerignore @devops-team
+
+# Infrastructure and deployment scripts
+# DevOps team owns all infrastructure-related files
+*.yml @devops-team
+*.yaml @devops-team
+
+# Backend API and server code
+# Backend team reviews server-side logic and API endpoints
+/src/lib/ @backend-team
+/src/server/ @backend-team
+
+# Configuration files
+# Both backend and devops teams review configuration changes
+*.config.js @backend-team @devops-team
+*.config.ts @backend-team @devops-team
+tsconfig.json @backend-team @devops-team
+
+# Package dependencies
+# All teams review dependency changes for security and compatibility
+package.json @backend-team @frontend-team @devops-team
+package-lock.json @backend-team @frontend-team @devops-team
+
+# Security-sensitive files
+# Security team and devops review authentication and secrets management
+.env.example @devops-team
+/src/lib/auth/ @backend-team @devops-team
+
+# Documentation
+# All teams can review documentation changes
+*.md @default-reviewers
+/docs/ @default-reviewers
