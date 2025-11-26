@@ -1,0 +1,85 @@
+// Prisma Schema for Math Practice Application
+// Database: PostgreSQL
+// ORM: Prisma Client
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - Stores user account information
+model User {
+  id           String         @id @default(uuid())
+  email        String         @unique
+  passwordHash String         @map("password_hash")
+  firstName    String         @map("first_name")
+  lastName     String         @map("last_name")
+  role         String         @default("user")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  answers      UserAnswer[]
+  progress     UserProgress[]
+
+  @@index([email])
+  @@map("users")
+}
+
+// Question model - Stores math practice questions
+model Question {
+  id              String       @id @default(uuid())
+  questionText    String       @map("question_text") @db.Text
+  questionLatex   String?      @map("question_latex") @db.Text
+  optionA         String       @map("option_a")
+  optionB         String       @map("option_b")
+  optionC         String       @map("option_c")
+  optionD         String       @map("option_d")
+  correctAnswer   String       @map("correct_answer")
+  topic           String
+  difficultyLevel Int          @map("difficulty_level")
+  explanation     String       @db.Text
+  imageUrl        String?      @map("image_url")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+  answers         UserAnswer[]
+
+  @@index([topic, difficultyLevel])
+  @@index([topic])
+  @@map("questions")
+}
+
+// UserAnswer model - Stores user responses to questions
+model UserAnswer {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  questionId     String   @map("question_id")
+  selectedAnswer String   @map("selected_answer")
+  isCorrect      Boolean  @map("is_correct")
+  timeTaken      Int      @map("time_taken")
+  answeredAt     DateTime @default(now()) @map("answered_at")
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question       Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([userId, answeredAt])
+  @@index([questionId])
+  @@map("user_answers")
+}
+
+// UserProgress model - Tracks user progress by topic
+model UserProgress {
+  id                 String   @id @default(uuid())
+  userId             String   @map("user_id")
+  topic              String
+  questionsAttempted Int      @default(0) @map("questions_attempted")
+  questionsCorrect   Int      @default(0) @map("questions_correct")
+  lastPracticed      DateTime @default(now()) @map("last_practiced")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, topic])
+  @@index([userId])
+  @@map("user_progress")
+}
